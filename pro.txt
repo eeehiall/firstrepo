@@ -1,2 +1,37 @@
-hii thihs is OLD text
+#! /bin/bash
+
+cc () {
+select name in get_diff apply_diff merge_branch  ext
+do
+  case $name in
+	get_diff )
+		
+		read -p  "Enter the branch which u r going to compare : "  comparable_branch
+		read -p  "Enter the current branch : "  current_branch
+		git diff --oneline --graph $comparable_branch..$current_branch 1> ~/your_patch_file.patch
+		cat your_patch_file.patch
+		;;
+	apply_diff )
+		read -p "Enter the branch name where u want to apply patch: " branch_name
+		git checkout $branch_name
+		git apply ~/your_patch_file.patch
+		 echo "successfully applied "
+		;;
+	merge_branch )
+ 
+		read -p "Enter the Destination branch : " destination_branch
+		git checkout $destination_branch
+		read -p "Enter the source branch : " source_branch
+		git merge $source_branch
+		;;
+	
+	ext )
+		exit
+		;;
+  esac
+done
+}
+
+cc
+
 
